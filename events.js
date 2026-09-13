@@ -1,8 +1,10 @@
 (function(){
-  var l=document.createElement("link");
-  l.rel="stylesheet";
-  l.href="./desk.css?v=en5";
-  document.head.appendChild(l);
+  [["./desk.css?v=en5"],["./compact.css?v=en7"]].forEach(function(pair){
+    var l=document.createElement("link");
+    l.rel="stylesheet";
+    l.href=pair[0];
+    document.head.appendChild(l);
+  });
 })();
 function closeBagHint(){
   var el=$("bagHint");
@@ -30,6 +32,31 @@ function showBagHint(){
   }
   el.classList.add("show");
 }
+function shotField(key){
+  S.shots=S.shots||{};
+  const src=S.shots[key];
+  return '<div class="field shotbox"><label>Photo</label><input type="file" accept="image/*" data-shot="'+key+'" />'+(src?'<img alt="Attached photo" src="'+src+'"/>':'')+'</div>';
+}
+function storeShot(key, file){
+  if(!file) return;
+  const r=new FileReader();
+  r.onload=function(){
+    const img=new Image();
+    img.onload=function(){
+      const c=document.createElement("canvas");
+      const max=900; let w=img.width,h=img.height;
+      if(w>max){ h=Math.round(h*max/w); w=max; }
+      if(h>max){ w=Math.round(w*max/h); h=max; }
+      c.width=w; c.height=h;
+      c.getContext("2d").drawImage(img,0,0,w,h);
+      S.shots=S.shots||{};
+      S.shots[key]=c.toDataURL("image/jpeg",0.7);
+      save(); paintAll();
+    };
+    img.src=r.result;
+  };
+  r.readAsDataURL(file);
+}
 document.addEventListener("click", function(e){
   const goEl=e.target.closest("[data-go]");
   const actEl=e.target.closest("[data-act]");
@@ -39,7 +66,7 @@ document.addEventListener("click", function(e){
   if(act==="toggle"){ const id=actEl.getAttribute("data-id"); S.done[id]=!S.done[id]; save(); paintPlan(); paintToday(); }
   else if(act==="pack"){ const id=actEl.getAttribute("data-id"); S.packed[id]=!S.packed[id]; save(); paintPack(); }
   else if(act==="create"){ S.meta.title=((($("nTitle")||{}).value)||"").trim()||"Trip"; S.meta.start=(($("nStart")||{}).value)||""; S.meta.end=(($("nEnd")||{}).value)||""; S.meta.pnr=((($("nPnr")||{}).value)||"").trim(); S.meta.sample=false; save(); paintAll(); }
-  else if(act==="demo"){ S=demoState(); S.tickets=S.tickets||[]; S.sim=S.sim||[]; S.packExtra=S.packExtra||[]; save(); paintAll(); }
+  else if(act==="demo"){ S=demoState(); S.tickets=S.tickets||[]; S.sim=S.sim||[]; S.packExtra=S.packExtra||[]; S.shots=S.shots||{}; save(); paintAll(); }
   else if(act==="wipe"){ if(confirm("Delete this trip from this phone?")){ S=emptyState(); save(); paintAll(); } }
   else if(act==="add"){ const title=((($("rTitle")||{}).value)||"").trim(); if(!title) return; const date=($("rDate")||{}).value; const time=($("rTime")||{}).value; S.reminders.push({id:"u"+Date.now(),title,notes:((($("rNotes")||{}).value)||"").trim(),list:(($("rList")||{}).value)||"prep",at:date?(date+"T"+(time||"09:00")):""}); save(); paintPlan(); paintToday(); }
   else if(act==="del-rem"){ S.reminders=S.reminders.filter(r=>r.id!==actEl.getAttribute("data-id")); save(); paintPlan(); paintToday(); }
@@ -86,7 +113,12 @@ document.addEventListener("keydown", function(e){
   $("export").classList.remove("show");
   closeBagHint();
 });
-document.addEventListener("change", function(e){ if(e.target && e.target.id==="extra"){ S.extra=e.target.value; save(); } });
+document.addEventListener("change", function(e){
+  if(e.target && e.target.id==="extra"){ S.extra=e.target.value; save(); }
+  if(e.target && e.target.getAttribute && e.target.getAttribute("data-shot") && e.target.files && e.target.files[0]){
+    storeShot(e.target.getAttribute("data-shot"), e.target.files[0]);
+  }
+});
 (function(){
   const pager=$("pager"); if(!pager) return; let x0=0,y0=0,skip=false;
   pager.addEventListener("touchstart", function(e){ if(e.target.closest("#map, input, textarea, select")){ skip=true; return; } skip=false; x0=e.changedTouches[0].clientX; y0=e.changedTouches[0].clientY; }, {passive:true});
@@ -110,6 +142,7 @@ loadScript("./i18n.js?v=en5").then(function(){
   if(!S.tickets) S.tickets=[];
   if(!S.sim) S.sim=[];
   if(!S.packExtra) S.packExtra=[];
+  if(!S.shots) S.shots={};
   paintAll();
   setTimeout(showBagHint, 400);
 });
