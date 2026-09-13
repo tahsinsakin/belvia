@@ -14,7 +14,8 @@ function paintPlan(){
     html+='<div class="card"><div class="pad"><p class="kicker">'+(k==="prep"?"Before you leave":k)+'</p><h3>'+(k==="prep"?"Do these first":fmtWhen(k+"T12:00").day)+'</h3></div>';
     groups[k].forEach(r=>{
       const w=fmtWhen(r.at), place=placeBy(r.place);
-      html+='<div class="row'+(S.done[r.id]?' on':'')+'"><button type="button" class="check" data-act="toggle" data-id="'+esc(r.id)+'"></button><span class="when"><span>'+esc(w.day)+'</span><b>'+esc(w.time)+'</b></span><span style="flex:1"><p class="ttl">'+esc(r.title)+'</p>'+(r.notes?'<p class="note">'+esc(r.notes)+'</p>':'')+'</span>'+(place?'<a class="act" href="'+esc(mapsUrl(place))+'" rel="noopener noreferrer" target="_blank">Map</a>':'')+'<button class="act" type="button" data-act="del-rem" data-id="'+esc(r.id)+'">Delete</button></div>';
+      const shot=(S.shots&&S.shots[r.id])?'<img class="example-shot" alt="" src="'+S.shots[r.id]+'"/>':'';
+      html+='<div class="row'+(S.done[r.id]?' on':'')+'"><button type="button" class="check" data-act="toggle" data-id="'+esc(r.id)+'"></button><span class="when"><span>'+esc(w.day)+'</span><b>'+esc(w.time)+'</b></span><span style="flex:1"><p class="ttl">'+esc(r.title)+'</p>'+(r.notes?'<p class="note">'+esc(r.notes)+'</p>':'')+shot+'</span>'+(place?'<a class="act" href="'+esc(mapsUrl(place))+'" rel="noopener noreferrer" target="_blank">Map</a>':'')+'<button class="act" type="button" data-act="del-rem" data-id="'+esc(r.id)+'">Delete</button></div>';
     });
     html+='</div>';
   });
@@ -27,6 +28,7 @@ function paintPlan(){
   html+=tip("Where this belongs. Example: Flight or Before you leave");
   html+='<div class="field"><label>Notes</label><textarea id="rNotes" rows="2" placeholder="Take a taxi"></textarea></div>';
   html+=tip("Extra line. Example: Take a taxi. Do not walk at this hour.");
+  html+=(typeof shotField==="function"?shotField("plan-new"):"");
   html+='<div class="pad"><button class="btn btn-a" type="button" data-act="add">Add reminder</button></div></div>';
   html+=teach("One row, one time","Tick when done. Delete if you do not need it.");
   $("page-plan").innerHTML=html;
@@ -42,6 +44,7 @@ function paintMap(){
   html+=tip("The name people use. Example: BUD Terminal 2B");
   html+='<div class="field"><label>Address</label><input id="pAddr" placeholder="Budapest Airport arrivals" /></div>';
   html+=tip("Street or hall. Example: Budapest Airport arrivals");
+  html+=(typeof shotField==="function"?shotField("place-new"):"");
   html+='<div class="pad"><button class="btn btn-a" type="button" data-act="add-place">Add place</button></div></div>';
   html+=teach("Map opens outside","Phone opens Apple Maps. Computer opens Google Maps.");
   $("page-map").innerHTML=html; map=null; mapSig="";
@@ -72,7 +75,7 @@ function paintPack(){
   html+='<div class="field" style="padding-top:12px"><label>Item</label><input id="packTitle" placeholder="EU plug" /></div>';
   html+=tip("One extra thing. Example: EU plug");
   html+='<div class="pad"><button class="btn btn-a" type="button" data-act="add-pack">Add bag item</button></div></div>';
-  html+='</div><div class="card" style="margin-top:12px"><div class="field" style="padding-top:14px"><label>Bag notes</label><textarea id="extra" rows="3" placeholder="Power bank in the small bag.">'+esc(S.extra)+'</textarea></div>'+tip("Short note. Example: Power bank in the small bag.")+'</div>';
+  html+='</div><div class="card" style="margin-top:12px"><div class="field" style="padding-top:14px"><label>Bag notes</label><textarea id="extra" rows="3" placeholder="Power bank in the small bag.">'+esc(S.extra)+'</textarea></div>'+tip("Short note. Example: Power bank in the small bag.")+(typeof shotField==="function"?shotField("bag-notes"):"")+'</div>';
   html+=teach("Packed / total","The number at the top is the whole bag.");
   $("page-pack").innerHTML=html;
 }
