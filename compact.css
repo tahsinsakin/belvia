@@ -1,13 +1,26 @@
-header.top{padding:calc(4px + var(--safe-t)) 8px 4px !important}
-.barrow{min-height:28px !important;gap:6px !important}
-.mark,.iconbtn{width:26px !important;height:26px !important}
-.mark{font-size:16px !important;line-height:20px !important}
-.brand{padding:2px 6px 1px !important}
-.brand h1{font-size:16px !important;letter-spacing:.06em !important}
-.brand p{font-size:7px !important;margin:2px 0 0 !important}
-h2{font-size:16px !important;padding:8px 10px !important;border-width:5px !important}
-nav.dock{padding:2px 4px calc(6px + var(--safe-b)) !important}
-nav.dock button{font-size:8px !important;padding:3px 1px !important;max-width:72px !important}
-nav.dock svg{width:14px !important;height:14px !important}
+header.top{padding:calc(6px + var(--safe-t)) 8px 8px !important}
+.barrow{min-height:56px !important;gap:8px !important;align-items:center !important}
+.mark{width:56px !important;height:56px !important;flex:0 0 56px !important}
+.mark img{width:56px !important;height:56px !important;object-fit:cover !important}
+.iconbtn{width:32px !important;height:32px !important}
+.brand{padding:3px 8px 3px !important}
+.brand h1{
+  font-family:Cinzel,"New Rocker",Georgia,serif !important;
+  font-size:22px !important;
+  letter-spacing:.14em !important;
+  -webkit-text-stroke:.55px #2a140a !important;
+  text-shadow:0 2px 0 #1a0c06, 2px 4px 6px rgba(10,4,0,.45) !important;
+}
+.brand p{font-family:Cinzel,Georgia,serif !important;font-size:8px !important;margin:3px 0 0 !important}
+h2{
+  font-family:Cinzel,"New Rocker",Georgia,serif !important;
+  font-size:20px !important;
+  padding:10px 12px !important;
+  border-width:5px !important;
+  -webkit-text-stroke:.5px #2a140a !important;
+}
+nav.dock{padding:4px 6px calc(8px + var(--safe-b)) !important}
+nav.dock button{font-size:9px !important;padding:4px 2px !important;max-width:76px !important}
+nav.dock svg{width:16px !important;height:16px !important}
 .shotbox{margin:0 14px 12px}
 .shotbox img{width:100%;max-height:160px;object-fit:contain;display:block;margin-top:8px;background:#0c1c14}
