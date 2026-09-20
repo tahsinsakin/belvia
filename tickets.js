@@ -60,10 +60,10 @@ function renderSimGate(){
   list.forEach(function(app, i){
     html += '<div class="row"><span class="when"><b>'+(i+1)+'</b><span>After SIM</span></span><span style="flex:1"><p class="ttl">'+esc(app.name)+'</p><p class="note">'+esc(app.note||"")+'</p></span><button class="act" type="button" data-act="app" data-scheme="'+esc(app.scheme||"")+'">Open</button><button class="act" type="button" data-act="del-sim" data-id="'+esc(app.id)+'">Delete</button></div>';
   });
-  html += '<div class="field" style="padding-top:12px"><label>Name</label><input id="simName" placeholder="Bumble" /></div>';
-  html += tip("App name. Example: Bumble");
-  html += '<div class="field"><label>Link</label><input id="simLink" placeholder="https://bumble.com/" /></div>';
-  html += tip("Site link. Example: https://bumble.com/");
+  html += '<div class="field" style="padding-top:12px"><label>Name</label><input id="simName" placeholder="Wizz Air" /></div>';
+  html += tip("App name. Example: Wizz Air");
+  html += '<div class="field"><label>Link</label><input id="simLink" placeholder="https://www.wizzair.com/" /></div>';
+  html += tip("Site link. Example: https://www.wizzair.com/");
   html += '<div class="field"><label>Note</label><input id="simNote" placeholder="Open after the local number works" /></div>';
   html += tip("When to open it. Example: Open after the local number works");
   html += '<div class="pad"><button class="btn btn-a" type="button" data-act="add-sim">Add after SIM apps</button></div></div>';
