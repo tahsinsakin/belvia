@@ -6,6 +6,36 @@
     document.head.appendChild(l);
   });
 })();
+function closeHow(){
+  var el=$("howHint");
+  if(el) el.classList.remove("show");
+  try{ localStorage.setItem("budvia-how-1","1"); }catch(e){}
+}
+function showHow(force){
+  try{ if(!force && localStorage.getItem("budvia-how-1")) return false; }catch(e){}
+  var el=$("howHint");
+  if(!el){
+    el=document.createElement("div");
+    el.id="howHint";
+    el.className="overlay";
+    el.innerHTML='<div class="sheet stack" style="max-height:86dvh;overflow:auto">'+
+      '<p class="kicker">What this is</p>'+
+      '<h3>BudVia keeps one trip in one place</h3>'+
+      '<p class="muted">Buying the ticket is easy. Keeping the trip together is not. This app holds the name, days, tickets, times, places and the bag on this phone. Nothing is uploaded.</p>'+
+      '<p class="muted"><b>1. Trip.</b> Write a name and the first and last day.</p>'+
+      '<p class="muted"><b>2. Tickets.</b> Add each flight, bus or stay. Save it to the calendar if you want.</p>'+
+      '<p class="muted"><b>3. Plan.</b> Add what happens and when. Tick a row when it is done.</p>'+
+      '<p class="muted"><b>4. Places.</b> Pin where you go. The map button opens Apple Maps or Google Maps.</p>'+
+      '<p class="muted"><b>5. Bag.</b> Tick what is already packed.</p>'+
+      '<p class="muted"><b>6. Home screen.</b> Share, then Add to Home Screen. The trip stays here.</p>'+
+      '<button class="btn btn-a" type="button" data-act="how-ok">Start the trip</button>'+
+      '</div>';
+    document.body.appendChild(el);
+    el.addEventListener("click", function(e){ if(e.target.id==="howHint") closeHow(); });
+  }
+  el.classList.add("show");
+  return true;
+}
 function closeBagHint(){
   var el=$("bagHint");
   if(el) el.classList.remove("show");
@@ -104,6 +134,8 @@ document.addEventListener("click", function(e){
   else if(act==="ics-cal"){ if(!S.reminders.some(r=>r.at)){ alert("Add a time first."); return; } downloadIcs("BudVia-Calendar.ics", buildIcs("event")); }
   else if(act==="ics-rem"){ if(!S.reminders.some(r=>r.at)){ alert("Add a time first."); return; } downloadIcs("BudVia-Reminders.ics", buildIcs("todo")); }
   else if(act==="install"){ if(window.BudViaInstall) window.BudViaInstall.add(); }
+  else if(act==="how-ok"){ closeHow(); setTimeout(showBagHint, 200); }
+  else if(act==="how"){ showHow(true); }
   else if(act==="bag-go"){ closeBagHint(); setTab("pack"); }
   else if(act==="bag-skip"){ closeBagHint(); }
 });
@@ -111,6 +143,7 @@ $("export").addEventListener("click", function(e){ if(e.target.id==="export") $(
 document.addEventListener("keydown", function(e){
   if(e.key!=="Escape") return;
   $("export").classList.remove("show");
+  closeHow();
   closeBagHint();
 });
 document.addEventListener("change", function(e){
@@ -135,7 +168,7 @@ function loadScript(src){
   });
 }
 loadScript("./i18n.js?v=en5").then(function(){
-  return loadScript("./tickets.js?v=en5");
+  return loadScript("./tickets.js?v=en9");
 }).then(function(){
   return loadScript("./install.js?v=en5");
 }).then(function(){
@@ -144,5 +177,7 @@ loadScript("./i18n.js?v=en5").then(function(){
   if(!S.packExtra) S.packExtra=[];
   if(!S.shots) S.shots={};
   paintAll();
-  setTimeout(showBagHint, 400);
+  setTimeout(function(){
+    if(!showHow(false)) showBagHint();
+  }, 300);
 });
