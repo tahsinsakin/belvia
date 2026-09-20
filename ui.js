@@ -27,7 +27,7 @@ function teach(title, body){
   return '<div class="card example-card" style="margin-top:18px"><div class="pad"><p class="kicker">How this works</p><h3>'+title+'</h3><p class="muted">'+body+'</p></div></div>';
 }
 function howCard(){
-  return '<div class="card" style="margin-top:16px"><div class="pad"><p class="kicker">How to use</p><h3>One trip, one phone</h3><p class="muted">Name the trip. Add tickets and times. Tick the bag. Add to Home Screen. Nothing leaves this phone.</p></div><div class="pad" style="padding-top:0"><button class="btn btn-g" type="button" data-act="how">Read the full guide</button></div></div>';
+  return '<div class="card" style="margin-top:16px"><div class="pad"><p class="kicker">How to use</p><h3>Cheap tickets from many apps, one log</h3><p class="muted">You buy cheap tickets in many apps. BudVia remembers which ticket came from which app. You also log the places you go, with a photo and a note. First app built to keep all of that in one place on this phone.</p></div><div class="pad" style="padding-top:0"><button class="btn btn-g" type="button" data-act="how">Read the full guide</button></div></div>';
 }
 function load(){ try { const raw = localStorage.getItem(KEY); return raw ? Object.assign(emptyState(), JSON.parse(raw)) : emptyState(); } catch(e){ return emptyState(); } }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
@@ -135,7 +135,7 @@ function setTab(id){
 }
 function paintChrome(){
   $("hdrTitle").textContent = "BudVia";
-  $("hdrSub").textContent = "Not all who wander are lost, especially with the right companion: Tolkien";
+  $("hdrSub").textContent = "Cheap tickets from many apps. One log.";
   if($("pills")) $("pills").innerHTML = "";
   if($("langBar")) $("langBar").innerHTML = "";
   const icons={
@@ -153,7 +153,7 @@ function paintToday(){
   const addBtn='<button class="btn btn-a" type="button" data-act="install">Add to Home Screen</button>';
   const tripShot=(typeof shotField==="function"?shotField("trip-new"):"");
   if(!hasTrip()){
-    root.innerHTML='<p class="kicker">BUD&VIA</p><h2>Welcome to BudVia</h2>'+senecaQuote()+howCard()+'<div class="stack" style="margin-top:16px">'+addBtn+'<div class="card"><div class="pad"><p class="kicker">New trip</p><h3>Name your trip</h3></div><div class="field"><label>Name</label><input id="nTitle" placeholder="8-day trip to Luxembourg" /></div>'+tip("Write it like you say it. Example: 8-day trip to Luxembourg")+'<div class="grid2"><div class="field"><label>Starts</label><input id="nStart" type="date" /></div><div class="field"><label>Ends</label><input id="nEnd" type="date" /></div></div>'+tip("First day and last day. Example: 12 Dec to 20 Dec")+'<div class="field"><label>Code</label><input id="nPnr" placeholder="W6 2488" autocomplete="off" /></div>'+tip("Flight or booking code. Example: W6 2488. You can leave this empty.")+tripShot+'<div class="pad"><button class="btn btn-a" type="button" data-act="create">Save trip</button></div></div><button class="btn btn-g" type="button" data-act="demo">Load a sample trip</button></div>'+shot;
+    root.innerHTML='<p class="kicker">BUD&VIA</p><h2>Welcome to BudVia</h2>'+howCard()+'<div class="stack" style="margin-top:16px">'+addBtn+'<div class="card"><div class="pad"><p class="kicker">New trip</p><h3>Name your trip</h3></div><div class="field"><label>Name</label><input id="nTitle" placeholder="8-day trip to Luxembourg" /></div>'+tip("Write it like you say it. Example: 8-day trip to Luxembourg")+'<div class="grid2"><div class="field"><label>Starts</label><input id="nStart" type="date" /></div><div class="field"><label>Ends</label><input id="nEnd" type="date" /></div></div>'+tip("First day and last day. Example: 12 Dec to 20 Dec")+'<div class="field"><label>Code</label><input id="nPnr" placeholder="W6 2488" autocomplete="off" /></div>'+tip("Flight or booking code. Example: W6 2488. You can leave this empty.")+tripShot+'<div class="pad"><button class="btn btn-a" type="button" data-act="create">Save trip</button></div></div><button class="btn btn-g" type="button" data-act="demo">Load a sample trip</button></div>'+shot;
     return;
   }
   const n=nextUp();
