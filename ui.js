@@ -27,7 +27,7 @@ function teach(title, body){
   return '<div class="card example-card" style="margin-top:18px"><div class="pad"><p class="kicker">How this works</p><h3>'+title+'</h3><p class="muted">'+body+'</p></div></div>';
 }
 function howCard(){
-  return '<div class="card" style="margin-top:16px"><div class="pad"><p class="kicker">How to use</p><h3>Cheap tickets from many apps, one log</h3><p class="muted">You buy cheap tickets in many apps. BudVia remembers which ticket came from which app. You also log the places you go, with a photo and a note. First app built to keep all of that in one place on this phone.</p></div><div class="pad" style="padding-top:0"><button class="btn btn-g" type="button" data-act="how">Read the full guide</button></div></div>';
+  return '<div class="card" style="margin-top:16px"><div class="pad"><p class="kicker">How to use</p><h3>One tap back into every app</h3><p class="muted">Buy the cheap ticket in Wizz, FlixBus, Airbnb, Booking. Then forget those apps. BudVia keeps the door. One tap here opens the same app that sold the ticket. Log the places you go with a photo and a note. The trip stays on this phone.</p></div><div class="pad" style="padding-top:0"><button class="btn btn-g" type="button" data-act="how">Read the full guide</button></div></div>';
 }
 function load(){ try { const raw = localStorage.getItem(KEY); return raw ? Object.assign(emptyState(), JSON.parse(raw)) : emptyState(); } catch(e){ return emptyState(); } }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
@@ -135,7 +135,7 @@ function setTab(id){
 }
 function paintChrome(){
   $("hdrTitle").textContent = "BudVia";
-  $("hdrSub").textContent = "Cheap tickets from many apps. One log.";
+  $("hdrSub").textContent = "Not all who wander are lost, especially with the right companion: Tolkien";
   if($("pills")) $("pills").innerHTML = "";
   if($("langBar")) $("langBar").innerHTML = "";
   const icons={
@@ -158,8 +158,8 @@ function paintToday(){
   }
   const n=nextUp();
   const nextCard=n
-    ? '<div class="card"><div class="pad">'+nextStepTitle()+'<h3>'+esc(n.r.title)+'</h3><p class="note">'+esc(fmtWhen(n.r.at).day+' \u00b7 '+fmtWhen(n.r.at).time)+'</p>'+(n.r.notes?'<p class="note">'+esc(n.r.notes)+'</p>':'')+'</div><div class="pad" style="padding-top:0">'+goBtn("plan","Open plan")+'</div></div>'
-    : '<div class="card"><div class="pad">'+nextStepTitle()+'</div><div class="pad" style="padding-top:0">'+goBtn("plan","Open plan")+'</div></div>';
+    ? '<div class="card"><div class="pad">'+nextStepTitle()+'<h3>'+esc(n.r.title)+'</h3><p class="note">'+esc(fmtWhen(n.r.at).day+' \u00b7 '+fmtWhen(n.r.at).time)+'</p>'+(n.r.notes?'<p class="note">'+esc(n.r.notes)+'</p>':'')+'</div><div class="pad" style="padding-top:0">'+goBtn("plan","Open times")+'</div></div>'
+    : '<div class="card"><div class="pad">'+nextStepTitle()+'</div><div class="pad" style="padding-top:0">'+goBtn("plan","Open times")+'</div></div>';
   root.innerHTML=(S.meta.sample?'<div class="banner">This is a sample. Real codes are hidden.</div>':'')+'<p class="kicker">'+esc(rangeLabel())+'</p><h2>'+esc(S.meta.title || "BudVia")+'</h2>'+(S.meta.pnr?'<p class="muted">Code '+esc(S.meta.pnr)+'</p>':senecaQuote())+'<div class="stack" style="margin-top:16px">'+(typeof renderAirPair==="function"?renderAirPair():flightCard())+nextCard+addBtn+goBtn("apps","Open tickets")+'<button class="btn btn-g" type="button" data-act="how">How to use</button><button class="btn btn-g" type="button" data-act="wipe">Clear this phone</button></div>'+shot;
 }
 function flightCard(){
