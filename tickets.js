@@ -70,7 +70,10 @@ function renderSimGate(){
   return html;
 }
 function renderAddTicket(){
-  return '<div class="card" style="margin-top:14px"><div class="pad"><p class="kicker">New</p><h3>Add a ticket</h3></div>'+
+  const shot=(typeof shotField==="function"?shotField("ticket-scan"):"");
+  return '<div class="card" style="margin-top:14px"><div class="pad"><p class="kicker">New</p><h3>Add a ticket</h3><p class="muted">Take a photo of the ticket. Check the boxes. Tap Add ticket.</p><p class="note" id="scanStatus">The photo stays on this phone.</p></div>'+
+    shot+
+    tip("Photo of the boarding pass, bus ticket, or room booking.")+
     '<div class="field"><label>Type</label><select id="tKind"><option value="flight">Flight</option><option value="coach">Bus</option><option value="stay">Stay</option></select></div>'+
     tip("Flight, bus, or stay")+
     '<div class="field"><label>Company</label><input id="tCarrier" placeholder="Wizz Air" /></div>'+
