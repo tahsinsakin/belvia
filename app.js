@@ -1,6 +1,7 @@
 const TABS = ["today","plan","map","pack","apps"];
 const LABELS = { today:"Trip", plan:"Plan", map:"Places", pack:"Bag", apps:"Tickets" };
-const KEY = "belvia-v2";
+const KEY = "budvia-v2";
+const KEY_OLD = "belvia-v2";
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const WEEK = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const LISTS = [["prep","Before you leave"],["flight","Flight"],["bus","Bus"],["stay","Stay"],["city","In the city"],["social","People"]];
