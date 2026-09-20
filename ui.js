@@ -27,7 +27,7 @@ function teach(title, body){
   return '<div class="card example-card" style="margin-top:18px"><div class="pad"><p class="kicker">How this works</p><h3>'+title+'</h3><p class="muted">'+body+'</p></div></div>';
 }
 function howCard(){
-  return '<div class="card" style="margin-top:16px"><div class="pad"><p class="kicker">How to use</p><h3>One tap back into every app</h3><p class="muted">Buy the cheap ticket in Wizz, FlixBus, Airbnb, Booking. Then forget those apps. BudVia keeps the door. One tap here opens the same app that sold the ticket. Log the places you go with a photo and a note. The trip stays on this phone.</p></div><div class="pad" style="padding-top:0"><button class="btn btn-g" type="button" data-act="how">Read the full guide</button></div></div>';
+  return '<div class="card" style="margin-top:16px"><div class="pad"><p class="kicker">How to use</p><h3>All tickets in one place</h3><p class="muted">Put every cheap ticket here. Tap Open site. That app opens. You can forget the other apps after that. You can add a photo to a place. This stays on this phone.</p></div><div class="pad" style="padding-top:0"><button class="btn btn-g" type="button" data-act="how">Read the steps</button></div></div>';
 }
 function load(){ try { const raw = localStorage.getItem(KEY); return raw ? Object.assign(emptyState(), JSON.parse(raw)) : emptyState(); } catch(e){ return emptyState(); } }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
