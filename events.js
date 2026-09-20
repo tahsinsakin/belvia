@@ -9,10 +9,10 @@
 function closeHow(){
   var el=$("howHint");
   if(el) el.classList.remove("show");
-  try{ localStorage.setItem("budvia-how-2","1"); }catch(e){}
+  try{ localStorage.setItem("budvia-how-3","1"); }catch(e){}
 }
 function showHow(force){
-  try{ if(!force && localStorage.getItem("budvia-how-2")) return false; }catch(e){}
+  try{ if(!force && localStorage.getItem("budvia-how-3")) return false; }catch(e){}
   var el=$("howHint");
   if(!el){
     el=document.createElement("div");
@@ -20,14 +20,15 @@ function showHow(force){
     el.className="overlay";
     el.innerHTML='<div class="sheet stack" style="max-height:86dvh;overflow:auto">'+
       '<p class="kicker">What this is</p>'+
-      '<h3>One place for every cheap ticket</h3>'+
-      '<p class="muted">You buy cheap tickets from many apps. Then you forget which ticket came from which app. BudVia is the first app built to put all of that in one place: the ticket, the app that sold it, the places you go, plus a photo and a note for each stop. It stays on this phone.</p>'+
-      '<p class="muted"><b>1. Trip.</b> Name the trip and the first and last day.</p>'+
-      '<p class="muted"><b>2. Tickets.</b> Add each cheap ticket. Write the company so you remember which app sold it.</p>'+
-      '<p class="muted"><b>3. Plan.</b> Write what happens and when.</p>'+
-      '<p class="muted"><b>4. Places.</b> Log where you went. Add a photo and a short note under the place.</p>'+
-      '<p class="muted"><b>5. Bag.</b> Tick what is packed. Add a photo of the bag if you want.</p>'+
-      '<p class="muted"><b>6. Home screen.</b> Share, then Add to Home Screen.</p>'+
+      '<h3>Buy cheap. Keep one door.</h3>'+
+      '<p class="muted">The cheap ticket lives in Wizz. The bus lives in FlixBus. The room lives in Airbnb. After you pay, those apps go quiet. You hunt them again at 4 a.m. BudVia is the door you keep. One tap from here opens the same app that sold the ticket. Install those apps once. Then forget them. Come back here when you need the boarding pass, the QR, the room code, the next hour.</p>'+
+      '<p class="muted">You also log the places you walk, with a photo and a short note. The trip stays on this phone.</p>'+
+      '<p class="muted"><b>1. Trip.</b> Name the days.</p>'+
+      '<p class="muted"><b>2. Tickets.</b> Add each cheap ticket and the company that sold it. Tap Open site. That is the one tap.</p>'+
+      '<p class="muted"><b>3. Times.</b> Write what happens and when.</p>'+
+      '<p class="muted"><b>4. Places.</b> Pin a stop. Add a photo and a note.</p>'+
+      '<p class="muted"><b>5. Bag.</b> Tick what is packed.</p>'+
+      '<p class="muted"><b>6. Home screen.</b> Add to Home Screen so this door is on the phone.</p>'+
       '<button class="btn btn-a" type="button" data-act="how-ok">Start the trip</button>'+
       '</div>';
     document.body.appendChild(el);
