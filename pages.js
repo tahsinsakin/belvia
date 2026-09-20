@@ -8,7 +8,7 @@ function teach(title, body){
 function paintPlan(){
   const groups={}; S.reminders.forEach(r=>{ const k=r.at?r.at.slice(0,10):"prep"; (groups[k]||(groups[k]=[])).push(r); });
   const keys=Object.keys(groups).sort();
-  let html='<p class="kicker">Plan</p><h2>Plan</h2><p class="muted">One row. One time.</p><div class="stack">';
+  let html='<p class="kicker">Day by day</p><h2>Times</h2><p class="muted">One row. One time.</p><div class="stack">';
   if(!keys.length) html+='<div class="banner">Nothing here yet.</div>'+goBtn("today","Open trip");
   keys.forEach(k=>{
     html+='<div class="card"><div class="pad"><p class="kicker">'+(k==="prep"?"Before you leave":k)+'</p><h3>'+(k==="prep"?"Do these first":fmtWhen(k+"T12:00").day)+'</h3></div>';
@@ -34,7 +34,7 @@ function paintPlan(){
   $("page-plan").innerHTML=html;
 }
 function paintMap(){
-  let html='<p class="kicker">Route</p><h2>Places</h2><p class="muted">A pin is a place you will go.</p><div class="mapwrap card"><button class="mapclose" type="button" data-act="go" data-go="today">Close</button><div id="map"></div></div><div class="card" style="margin-top:12px">';
+  let html='<p class="kicker">Pins</p><h2>Places</h2><p class="muted">A pin is a place you will go.</p><div class="mapwrap card"><button class="mapclose" type="button" data-act="go" data-go="today">Close</button><div id="map"></div></div><div class="card" style="margin-top:12px">';
   if(!S.places.length) html+='<div class="pad"><p class="muted">No places yet.</p></div><div class="pad" style="padding-top:0">'+goBtn("today","Open trip")+'</div>';
   else S.places.forEach(p=>{ html+='<div class="row"><span style="flex:1"><p class="ttl">'+esc(p.name)+'</p><p class="note">'+esc(p.address)+'</p></span><a class="act" href="'+esc(mapsUrl(p))+'" rel="noopener noreferrer" target="_blank">Map</a><button class="act" type="button" data-act="del-place" data-id="'+esc(p.id)+'">Delete</button></div>'; });
   html+='</div>';
@@ -81,7 +81,7 @@ function paintPack(){
 }
 function paintApps(){
   $("page-apps").innerHTML=renderTicketBoard()+
-    '<div class="stack" style="margin-top:12px">'+goBtn("plan","Open plan")+'</div>'+
+    '<div class="stack" style="margin-top:12px">'+goBtn("plan","Open times")+'</div>'+
     '<div class="card" style="margin-top:12px"><div class="pad"><p class="kicker">Contact</p><h3>BUD&VIA</h3><img class="example-shot" alt="BudVia otter brand photo by Tahsin Sakin" src="./0875CF7C-5ACB-48B1-B2CD-57E02C5C9B58.jpeg?v=en5"/><p class="note">An idiot admires complexity, a genius admires simplicity.</p><p class="note">\u2014 Terry A. Davis</p><p class="note">This stays on the phone. No login. No tracking.</p><p class="note">Made by Tahsin Sakin. Ankara.</p><p class="note"><a class="act" href="https://www.linkedin.com/in/tahsin-sakin-390961199" rel="noopener noreferrer" target="_blank">LinkedIn</a></p><p class="note"><a class="act" href="https://github.com/tahsinsakin/budvia" rel="noopener noreferrer" target="_blank">GitHub</a></p><p class="note"><a class="act" href="./privacy.html">Privacy</a> · <a class="act" href="./terms.html">Terms</a> · <a class="act" href="./cookies.html">Cookies</a> · <a class="act" href="./refund.html">Refunds</a></p></div></div>';
 }
 function paintAll(){ paintChrome(); paintToday(); paintPlan(); paintMap(); paintPack(); paintApps(); if(typeof paintExport==="function") paintExport(); }
