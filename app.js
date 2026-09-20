@@ -19,7 +19,6 @@ const APPS = [
   ["airbnb","Airbnb","airbnb://","Stay details"],
   ["booking","Booking.com","booking://","Hotel stays"],
   ["bubi","MOL Bubi","bubi://","City bikes"],
-  ["bumble","Bumble","bumble://","After the local number works"],
   ["timeleft","Timeleft","timeleft://","Shared dinner tables"],
   ["nomad","Nomadtable","nomadtable://","Meet other travellers"]
 ];
@@ -64,7 +63,6 @@ function demoState(){
       {id:"d14d",list:"city",title:"Local SIM",notes:"EU data.",at:"2026-09-14T12:30",place:"bud"},
       {id:"d14e",list:"city",title:"100E into the city",notes:"About 2,200 HUF.",at:"2026-09-14T13:00",place:"stay-bp"},
       {id:"d14f",list:"stay",title:"Budapest check-in",notes:"Sample pin only.",at:"2026-09-14T15:00",place:"stay-bp"},
-      {id:"d14g",list:"social",title:"Open Bumble on the local line",at:"2026-09-14T15:30"},
       {id:"d14h",list:"social",title:"Book Wednesday Timeleft",at:"2026-09-14T16:00"},
       {id:"d14i",list:"city",title:"Set up MOL Bubi",at:"2026-09-14T16:30"},
       {id:"d15a",list:"social",title:"Nomadtable",at:"2026-09-15T11:00"},
