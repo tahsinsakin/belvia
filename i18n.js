@@ -1,4 +1,4 @@
-const LANG_KEY = "belvia-lang";
+const LANG_KEY = "budvia-lang";
 let LANG = "en";
 const I18N = {
   en: {
