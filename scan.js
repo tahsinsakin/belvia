@@ -111,11 +111,15 @@ function shrinkShot(file){
 async function readTicketPhoto(file){
   if(!file) return;
   scanStatus("Wait. Reading the photo on this phone.");
-  if(typeof storeShot==="function") storeShot("ticket-scan", file);
   try{
     await loadTess();
     const canvas=await shrinkShot(file);
     if(!canvas || !window.Tesseract) throw new Error("no canvas");
+    try{
+      S.shots=S.shots||{};
+      S.shots["ticket-scan"]=canvas.toDataURL("image/jpeg",0.7);
+      save();
+    }catch(e){}
     const worker=await Tesseract.createWorker("eng", 1, {
       logger: function(m){
         if(m && m.status==="recognizing text" && m.progress){
@@ -128,8 +132,8 @@ async function readTicketPhoto(file){
     const parsed=parseTicketText(res && res.data && res.data.text);
     fillTicketForm(parsed);
     const got=parsed.carrier || parsed.code || parsed.from || parsed.at;
-    scanStatus(got ? "Check the boxes. Then tap Add ticket." : "Could not read it. Type the boxes. Photo is saved.");
+    scanStatus(got ? "Check the boxes. Then tap Add ticket." : "Could not read it. Type the boxes.");
   }catch(e){
-    scanStatus("Could not read it. Type the boxes. Photo is saved.");
+    scanStatus("Could not read it. Type the boxes.");
   }
 }
