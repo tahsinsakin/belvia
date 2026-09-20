@@ -1,17 +1,17 @@
 {
   "expo": {
     "name": "BudVia",
-    "slug": "belvia",
+    "slug": "budvia",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "belvia",
+    "scheme": "budvia",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "primaryColor": "#1e3a5f",
     "platforms": ["ios", "android"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "app.belvia.trip",
+      "bundleIdentifier": "app.budvia.trip",
       "buildNumber": "1",
       "privacyManifests": {
         "NSPrivacyAccessedAPITypes": []
@@ -28,7 +28,7 @@
       }
     },
     "android": {
-      "package": "app.belvia.trip",
+      "package": "app.budvia.trip",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#1e3a5f"
@@ -49,7 +49,7 @@
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.READ_MEDIA_IMAGES"
-      }
+      ]
     },
     "androidStatusBar": {
       "barStyle": "light-content",
