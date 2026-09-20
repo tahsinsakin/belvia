@@ -9,10 +9,10 @@
 function closeHow(){
   var el=$("howHint");
   if(el) el.classList.remove("show");
-  try{ localStorage.setItem("budvia-how-4","1"); }catch(e){}
+  try{ localStorage.setItem("budvia-how-5","1"); }catch(e){}
 }
 function showHow(force){
-  try{ if(!force && localStorage.getItem("budvia-how-4")) return false; }catch(e){}
+  try{ if(!force && localStorage.getItem("budvia-how-5")) return false; }catch(e){}
   var el=$("howHint");
   if(!el){
     el=document.createElement("div");
@@ -22,10 +22,10 @@ function showHow(force){
       '<p class="kicker">How to use</p>'+
       '<h3>All tickets in one place</h3>'+
       '<p class="muted">You buy cheap tickets in many apps. Then you forget which app has which ticket.</p>'+
-      '<p class="muted">Put every ticket here. Tap Open site. That app opens. You can forget the other apps after that.</p>'+
+      '<p class="muted">Put every ticket here. Take a photo of it. Check the boxes. Tap Add ticket. Later tap Open site. That app opens.</p>'+
       '<p class="muted">You can also save a place with a photo and a short note. This stays on this phone.</p>'+
       '<p class="muted"><b>1.</b> Write the trip name and the days.</p>'+
-      '<p class="muted"><b>2.</b> Add each ticket. Tap Open site when you need that app.</p>'+
+      '<p class="muted"><b>2.</b> Take a photo of each ticket. Check the boxes. Tap Add ticket.</p>'+
       '<p class="muted"><b>3.</b> Write the times.</p>'+
       '<p class="muted"><b>4.</b> Add places. Add a photo if you want.</p>'+
       '<p class="muted"><b>5.</b> Tick what is in the bag.</p>'+
@@ -67,7 +67,7 @@ function showBagHint(){
 function shotField(key){
   S.shots=S.shots||{};
   const src=S.shots[key];
-  return '<div class="field shotbox"><label>Photo</label><input type="file" accept="image/*" data-shot="'+key+'" />'+(src?'<img alt="Attached photo" src="'+src+'"/>':'')+'</div>';
+  return '<div class="field shotbox"><label>Photo</label><input type="file" accept="image/*" capture="environment" data-shot="'+key+'" />'+(src?'<img alt="Attached photo" src="'+src+'"/>':'')+'</div>';
 }
 function storeShot(key, file){
   if(!file) return;
@@ -83,7 +83,8 @@ function storeShot(key, file){
       c.getContext("2d").drawImage(img,0,0,w,h);
       S.shots=S.shots||{};
       S.shots[key]=c.toDataURL("image/jpeg",0.7);
-      save(); paintAll();
+      save();
+      if(key!=="ticket-scan") paintAll();
     };
     img.src=r.result;
   };
@@ -151,7 +152,10 @@ document.addEventListener("keydown", function(e){
 document.addEventListener("change", function(e){
   if(e.target && e.target.id==="extra"){ S.extra=e.target.value; save(); }
   if(e.target && e.target.getAttribute && e.target.getAttribute("data-shot") && e.target.files && e.target.files[0]){
-    storeShot(e.target.getAttribute("data-shot"), e.target.files[0]);
+    var key=e.target.getAttribute("data-shot");
+    var file=e.target.files[0];
+    if(key==="ticket-scan" && typeof readTicketPhoto==="function") readTicketPhoto(file);
+    else storeShot(key, file);
   }
 });
 (function(){
@@ -170,7 +174,9 @@ function loadScript(src){
   });
 }
 loadScript("./i18n.js?v=en5").then(function(){
-  return loadScript("./tickets.js?v=en9");
+  return loadScript("./tickets.js?v=en11");
+}).then(function(){
+  return loadScript("./scan.js?v=en1");
 }).then(function(){
   return loadScript("./install.js?v=en5");
 }).then(function(){
