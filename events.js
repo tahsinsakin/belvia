@@ -1,5 +1,5 @@
 (function(){
-  [["./desk.css?v=en5"],["./compact.css?v=en7"]].forEach(function(pair){
+  [["./desk.css?v=en5"],["./compact.css?v=en10"]].forEach(function(pair){
     var l=document.createElement("link");
     l.rel="stylesheet";
     l.href=pair[0];
@@ -9,10 +9,10 @@
 function closeHow(){
   var el=$("howHint");
   if(el) el.classList.remove("show");
-  try{ localStorage.setItem("budvia-how-1","1"); }catch(e){}
+  try{ localStorage.setItem("budvia-how-2","1"); }catch(e){}
 }
 function showHow(force){
-  try{ if(!force && localStorage.getItem("budvia-how-1")) return false; }catch(e){}
+  try{ if(!force && localStorage.getItem("budvia-how-2")) return false; }catch(e){}
   var el=$("howHint");
   if(!el){
     el=document.createElement("div");
@@ -20,14 +20,14 @@ function showHow(force){
     el.className="overlay";
     el.innerHTML='<div class="sheet stack" style="max-height:86dvh;overflow:auto">'+
       '<p class="kicker">What this is</p>'+
-      '<h3>BudVia keeps one trip in one place</h3>'+
-      '<p class="muted">Buying the ticket is easy. Keeping the trip together is not. This app holds the name, days, tickets, times, places and the bag on this phone. Nothing is uploaded.</p>'+
-      '<p class="muted"><b>1. Trip.</b> Write a name and the first and last day.</p>'+
-      '<p class="muted"><b>2. Tickets.</b> Add each flight, bus or stay. Save it to the calendar if you want.</p>'+
-      '<p class="muted"><b>3. Plan.</b> Add what happens and when. Tick a row when it is done.</p>'+
-      '<p class="muted"><b>4. Places.</b> Pin where you go. The map button opens Apple Maps or Google Maps.</p>'+
-      '<p class="muted"><b>5. Bag.</b> Tick what is already packed.</p>'+
-      '<p class="muted"><b>6. Home screen.</b> Share, then Add to Home Screen. The trip stays here.</p>'+
+      '<h3>One place for every cheap ticket</h3>'+
+      '<p class="muted">You buy cheap tickets from many apps. Then you forget which ticket came from which app. BudVia is the first app built to put all of that in one place: the ticket, the app that sold it, the places you go, plus a photo and a note for each stop. It stays on this phone.</p>'+
+      '<p class="muted"><b>1. Trip.</b> Name the trip and the first and last day.</p>'+
+      '<p class="muted"><b>2. Tickets.</b> Add each cheap ticket. Write the company so you remember which app sold it.</p>'+
+      '<p class="muted"><b>3. Plan.</b> Write what happens and when.</p>'+
+      '<p class="muted"><b>4. Places.</b> Log where you went. Add a photo and a short note under the place.</p>'+
+      '<p class="muted"><b>5. Bag.</b> Tick what is packed. Add a photo of the bag if you want.</p>'+
+      '<p class="muted"><b>6. Home screen.</b> Share, then Add to Home Screen.</p>'+
       '<button class="btn btn-a" type="button" data-act="how-ok">Start the trip</button>'+
       '</div>';
     document.body.appendChild(el);
