@@ -9,27 +9,28 @@
 function closeHow(){
   var el=$("howHint");
   if(el) el.classList.remove("show");
-  try{ localStorage.setItem("budvia-how-3","1"); }catch(e){}
+  try{ localStorage.setItem("budvia-how-4","1"); }catch(e){}
 }
 function showHow(force){
-  try{ if(!force && localStorage.getItem("budvia-how-3")) return false; }catch(e){}
+  try{ if(!force && localStorage.getItem("budvia-how-4")) return false; }catch(e){}
   var el=$("howHint");
   if(!el){
     el=document.createElement("div");
     el.id="howHint";
     el.className="overlay";
     el.innerHTML='<div class="sheet stack" style="max-height:86dvh;overflow:auto">'+
-      '<p class="kicker">What this is</p>'+
-      '<h3>Buy cheap. Keep one door.</h3>'+
-      '<p class="muted">The cheap ticket lives in Wizz. The bus lives in FlixBus. The room lives in Airbnb. After you pay, those apps go quiet. You hunt them again at 4 a.m. BudVia is the door you keep. One tap from here opens the same app that sold the ticket. Install those apps once. Then forget them. Come back here when you need the boarding pass, the QR, the room code, the next hour.</p>'+
-      '<p class="muted">You also log the places you walk, with a photo and a short note. The trip stays on this phone.</p>'+
-      '<p class="muted"><b>1. Trip.</b> Name the days.</p>'+
-      '<p class="muted"><b>2. Tickets.</b> Add each cheap ticket and the company that sold it. Tap Open site. That is the one tap.</p>'+
-      '<p class="muted"><b>3. Times.</b> Write what happens and when.</p>'+
-      '<p class="muted"><b>4. Places.</b> Pin a stop. Add a photo and a note.</p>'+
-      '<p class="muted"><b>5. Bag.</b> Tick what is packed.</p>'+
-      '<p class="muted"><b>6. Home screen.</b> Add to Home Screen so this door is on the phone.</p>'+
-      '<button class="btn btn-a" type="button" data-act="how-ok">Start the trip</button>'+
+      '<p class="kicker">How to use</p>'+
+      '<h3>All tickets in one place</h3>'+
+      '<p class="muted">You buy cheap tickets in many apps. Then you forget which app has which ticket.</p>'+
+      '<p class="muted">Put every ticket here. Tap Open site. That app opens. You can forget the other apps after that.</p>'+
+      '<p class="muted">You can also save a place with a photo and a short note. This stays on this phone.</p>'+
+      '<p class="muted"><b>1.</b> Write the trip name and the days.</p>'+
+      '<p class="muted"><b>2.</b> Add each ticket. Tap Open site when you need that app.</p>'+
+      '<p class="muted"><b>3.</b> Write the times.</p>'+
+      '<p class="muted"><b>4.</b> Add places. Add a photo if you want.</p>'+
+      '<p class="muted"><b>5.</b> Tick what is in the bag.</p>'+
+      '<p class="muted"><b>6.</b> Add to Home Screen.</p>'+
+      '<button class="btn btn-a" type="button" data-act="how-ok">Start</button>'+
       '</div>';
     document.body.appendChild(el);
     el.addEventListener("click", function(e){ if(e.target.id==="howHint") closeHow(); });
@@ -52,7 +53,7 @@ function showBagHint(){
     el.innerHTML='<div class="sheet stack">'+
       '<p class="kicker">Do this first</p>'+
       '<h3>Pack the bag first</h3>'+
-      '<p class="muted">The trip starts with the bag. Tick what is in it.</p>'+
+      '<p class="muted">Tick what is in the bag.</p>'+
       '<p style="margin:0 0 4px;font-size:9px;line-height:1.4;color:#fff;opacity:.92">Example: passport, charger, EU plug.</p>'+
       '<p style="margin:0 0 12px;font-size:9px;line-height:1.4;color:#fff;opacity:.92">You can skip this and name the trip instead.</p>'+
       '<button class="btn btn-a" type="button" data-act="bag-go">Pack the bag</button>'+
