@@ -103,12 +103,16 @@ document.addEventListener("click", function(e){
   else if(act==="wipe"){ if(confirm("Delete this trip from this phone?")){ S=emptyState(); save(); paintAll(); } }
   else if(act==="add"){ const title=((($("rTitle")||{}).value)||"").trim(); if(!title) return; const date=($("rDate")||{}).value; const time=($("rTime")||{}).value; S.reminders.push({id:"u"+Date.now(),title,notes:((($("rNotes")||{}).value)||"").trim(),list:(($("rList")||{}).value)||"prep",at:date?(date+"T"+(time||"09:00")):""}); save(); paintPlan(); paintToday(); }
   else if(act==="del-rem"){ S.reminders=S.reminders.filter(r=>r.id!==actEl.getAttribute("data-id")); save(); paintPlan(); paintToday(); }
-  else if(act==="del-place"){ S.places=S.places.filter(p=>p.id!==actEl.getAttribute("data-id")); save(); paintMap(); }
-  else if(act==="del-route"){ S.routes=S.routes.filter(r=>r.id!==actEl.getAttribute("data-id")); save(); paintMap(); }
+  else if(act==="del-place"){ S.places=S.places.filter(p=>p.id!==actEl.getAttribute("data-id")); save(); refreshMap(); }
+  else if(act==="del-route"){ S.routes=S.routes.filter(r=>r.id!==actEl.getAttribute("data-id")); save(); refreshMap(); }
   else if(act==="add-place"){
     const name=((($("pName")||{}).value)||"").trim(); if(!name) return;
-    S.places.push({id:"p"+Date.now(),name:name,address:((($("pAddr")||{}).value)||"").trim(),lat:47.4979,lng:19.0402});
-    save(); paintMap();
+    const address=((($("pAddr")||{}).value)||"").trim();
+    const btn=actEl; btn.disabled=true;
+    geocodePlace(name, address).then(function(g){
+      S.places.push({id:"p"+Date.now(),name:name,address:address||g.label,lat:g.lat,lng:g.lng});
+      save(); refreshMap();
+    }).finally(function(){ btn.disabled=false; });
   }
   else if(act==="del-pack"){ if(S.packExtra) S.packExtra=S.packExtra.filter(x=>x.id!==actEl.getAttribute("data-id")); save(); paintPack(); }
   else if(act==="add-pack"){
@@ -134,8 +138,16 @@ document.addEventListener("click", function(e){
   else if(act==="app"){ openScheme(actEl.getAttribute("data-scheme")); }
   else if(act==="export"){ if(typeof paintExport==="function") paintExport(); $("export").classList.add("show"); }
   else if(act==="export-close"){ $("export").classList.remove("show"); }
-  else if(act==="ics-cal"){ if(!S.reminders.some(r=>r.at)){ alert("Add a time first."); return; } downloadIcs("BudVia-Calendar.ics", buildIcs("event")); }
-  else if(act==="ics-rem"){ if(!S.reminders.some(r=>r.at)){ alert("Add a time first."); return; } downloadIcs("BudVia-Reminders.ics", buildIcs("todo")); }
+  else if(act==="ics-cal"){
+    const items=typeof timedItems==="function"?timedItems():(S.reminders||[]).filter(function(r){return r.at;});
+    if(!items.length){ alert("Add a ticket time or a reminder first."); return; }
+    downloadIcs("BudVia-Calendar.ics", buildIcs("event"));
+  }
+  else if(act==="ics-rem"){
+    const items=typeof timedItems==="function"?timedItems():(S.reminders||[]).filter(function(r){return r.at;});
+    if(!items.length){ alert("Add a ticket time or a reminder first."); return; }
+    downloadIcs("BudVia-Reminders.ics", buildIcs("todo"));
+  }
   else if(act==="install"){ if(window.BudViaInstall) window.BudViaInstall.add(); }
   else if(act==="how-ok"){ closeHow(); setTimeout(showBagHint, 200); }
   else if(act==="how"){ showHow(true); }
@@ -177,6 +189,8 @@ loadScript("./i18n.js?v=en5").then(function(){
   return loadScript("./tickets.js?v=en11");
 }).then(function(){
   return loadScript("./scan.js?v=en1");
+}).then(function(){
+  return loadScript("./geo.js?v=en1");
 }).then(function(){
   return loadScript("./install.js?v=en5");
 }).then(function(){
