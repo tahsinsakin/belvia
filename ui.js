@@ -54,8 +54,12 @@ function webFor(scheme){
 }
 function mapsUrl(p){
   if(!p) return "";
-  const q=encodeURIComponent(p.name+", "+p.address);
-  if(deskLike() && !/Mac OS X|iPhone|iPad/.test(navigator.userAgent)) return "https://www.google.com/maps/search/?api=1&query="+q;
+  const q=encodeURIComponent((p.name||"")+(p.address?", "+p.address:""));
+  const ll=(typeof p.lat==="number" && typeof p.lng==="number")?(p.lat+","+p.lng):"";
+  if(deskLike() && !/Mac OS X|iPhone|iPad/.test(navigator.userAgent)){
+    return "https://www.google.com/maps/search/?api=1&query="+(ll||q);
+  }
+  if(ll) return "https://maps.apple.com/?ll="+ll+"&q="+q+"&t=m";
   return "https://maps.apple.com/?daddr="+q+"&dirflg=d&t=m";
 }
 function routeUrl(r){
@@ -87,16 +91,21 @@ function fold(s){ const txt=String(s).replace(/\n/g,"\\n").replace(/,/g,"\\,"); 
 function buildIcs(kind){
   const now=stamp(new Date().toISOString().slice(0,16));
   const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//BudVia//Travel//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH","X-WR-CALNAME:"+(S.meta.title||"BudVia")];
-  S.reminders.filter(r=>r.at).forEach(r=>{
+  const items=typeof timedItems==="function"?timedItems():(S.reminders||[]).filter(function(r){return r.at;}).map(function(r){ return {id:r.id,title:r.title,at:r.at,end:"",notes:r.notes||"",place:r.place}; });
+  items.forEach(function(r){
     const start=stamp(r.at);
-    const hm=(r.at.split("T")[1]||"09:00").split(":");
-    let eh=+hm[0], em=+hm[1]+40; if(em>=60){ eh+=1; em-=60; }
-    const end=r.at.split("T")[0].replace(/-/g,"")+"T"+String(eh).padStart(2,"0")+String(em).padStart(2,"0")+"00";
+    let end=start;
+    if(r.end) end=stamp(r.end);
+    else {
+      const hm=(r.at.split("T")[1]||"09:00").split(":");
+      let eh=+hm[0], em=+hm[1]+40; if(em>=60){ eh+=1; em-=60; }
+      end=r.at.split("T")[0].replace(/-/g,"")+"T"+String(eh).padStart(2,"0")+String(em).padStart(2,"0")+"00";
+    }
     const place=placeBy(r.place);
     if(kind==="event"){
       lines.push("BEGIN:VEVENT","UID:"+r.id+"@budvia.app","DTSTAMP:"+now+"Z","DTSTART:"+start,"DTEND:"+end,fold("SUMMARY:"+r.title));
       if(r.notes) lines.push(fold("DESCRIPTION:"+r.notes));
-      if(place){ lines.push(fold("LOCATION:"+place.address)); lines.push("GEO:"+place.lat+";"+place.lng); }
+      if(place){ lines.push(fold("LOCATION:"+(place.address||place.name))); if(place.lat) lines.push("GEO:"+place.lat+";"+place.lng); }
       lines.push("BEGIN:VALARM","ACTION:DISPLAY","TRIGGER:-PT45M","DESCRIPTION:"+r.title,"END:VALARM","END:VEVENT");
     } else {
       lines.push("BEGIN:VTODO","UID:"+r.id+"-todo@budvia.app","DTSTAMP:"+now+"Z","DTSTART:"+start,"DUE:"+start,fold("SUMMARY:"+r.title),"STATUS:NEEDS-ACTION");
@@ -110,8 +119,14 @@ function buildIcs(kind){
 function downloadIcs(name,body){
   const blob=new Blob([body],{type:"text/calendar;charset=utf-8"});
   const file=new File([blob],name,{type:"text/calendar"});
-  if(navigator.canShare && navigator.canShare({files:[file]})){ navigator.share({files:[file],title:name}).catch(function(){}); return; }
-  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  function saveFile(){
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  }
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    navigator.share({files:[file],title:name}).catch(function(){ saveFile(); });
+    return;
+  }
+  saveFile();
 }
 function openScheme(scheme){
   if(!scheme) return;
@@ -131,7 +146,10 @@ function setTab(id){
   document.querySelectorAll("#dock button").forEach(b=>b.classList.toggle("on", b.getAttribute("data-go")===id));
   const pager=$("pager");
   if(pager) pager.scrollLeft = TABS.indexOf(id) * pager.clientWidth;
-  if(id==="map") setTimeout(ensureMap, 80);
+  if(id==="map"){
+    setTimeout(ensureMap, 80);
+    setTimeout(function(){ if(map) map.invalidateSize(); }, 320);
+  }
 }
 function paintChrome(){
   $("hdrTitle").textContent = "BudVia";
