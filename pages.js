@@ -34,7 +34,7 @@ function paintPlan(){
   $("page-plan").innerHTML=html;
 }
 function paintMap(){
-  let html='<p class="kicker">Pins</p><h2>Places</h2><p class="muted">A pin is a place you will go.</p><div class="mapwrap card"><button class="mapclose" type="button" data-act="go" data-go="today">Close</button><div id="map"></div></div><div class="card" style="margin-top:12px">';
+  let html='<p class="kicker">Pins</p><h2>Places</h2><p class="muted">Write the name. The map opens the closest match.</p><div class="mapwrap card"><button class="mapclose" type="button" data-act="go" data-go="today">Close</button><div id="map"></div></div><div class="card" style="margin-top:12px">';
   if(!S.places.length) html+='<div class="pad"><p class="muted">No places yet.</p></div><div class="pad" style="padding-top:0">'+goBtn("today","Open trip")+'</div>';
   else S.places.forEach(p=>{ html+='<div class="row"><span style="flex:1"><p class="ttl">'+esc(p.name)+'</p><p class="note">'+esc(p.address)+'</p></span><a class="act" href="'+esc(mapsUrl(p))+'" rel="noopener noreferrer" target="_blank">Map</a><button class="act" type="button" data-act="del-place" data-id="'+esc(p.id)+'">Delete</button></div>'; });
   html+='</div>';
@@ -46,20 +46,31 @@ function paintMap(){
   html+=tip("Street or hall. Example: Budapest Airport arrivals");
   html+=(typeof shotField==="function"?shotField("place-new"):"");
   html+='<div class="pad"><button class="btn btn-a" type="button" data-act="add-place">Add place</button></div></div>';
-  html+=teach("Map opens outside","Phone opens Apple Maps. Computer opens Google Maps.");
+  html+=teach("Name finds the pin","Write the place name. The map jumps to the closest match. Map opens Apple Maps on a phone.");
   $("page-map").innerHTML=html; map=null; mapSig="";
+  if(tab==="map") setTimeout(ensureMap, 80);
 }
 function ensureMap(){
   const el=$("map"); if(!el || typeof L==="undefined") return;
-  const sig=S.places.map(p=>p.id).join(",");
+  const sig=S.places.map(p=>p.id+":"+(p.lat||"")+":"+(p.lng||"")).join(",");
   if(map && mapSig===sig){ map.invalidateSize(); return; }
   if(map){ try{ map.remove(); }catch(e){} map=null; }
   const start=S.places[0]||{lat:47.5,lng:19.05};
   map=L.map(el,{zoomControl:true,attributionControl:false});
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"\u00a9 OpenStreetMap"}).addTo(map);
-  const pts=[]; S.places.forEach(p=>{ L.circleMarker([p.lat,p.lng],{radius:7,color:"#fff",weight:2,fillColor:"#1d1d1f",fillOpacity:1}).addTo(map); pts.push([p.lat,p.lng]); });
-  if(pts.length>1) map.fitBounds(pts,{padding:[24,24]}); else map.setView([start.lat,start.lng],12);
-  mapSig=sig; setTimeout(function(){ if(map) map.invalidateSize(); },80);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{maxZoom:19,subdomains:"abcd"}).addTo(map);
+  const pts=[];
+  S.places.forEach(function(p){
+    if(typeof p.lat!=="number" || typeof p.lng!=="number") return;
+    const mk=L.circleMarker([p.lat,p.lng],{radius:8,color:"#2a140a",weight:2,fillColor:"#d9782e",fillOpacity:1}).addTo(map);
+    mk.bindPopup(esc(p.name));
+    pts.push([p.lat,p.lng]);
+  });
+  if(pts.length>1) map.fitBounds(pts,{padding:[28,28]});
+  else if(pts.length===1) map.setView(pts[0],13);
+  else map.setView([start.lat,start.lng],5);
+  mapSig=sig;
+  setTimeout(function(){ if(map) map.invalidateSize(); },80);
+  setTimeout(function(){ if(map) map.invalidateSize(); },320);
 }
 function paintPack(){
   const extra = S.packExtra || [];
