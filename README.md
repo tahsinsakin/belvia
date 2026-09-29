@@ -1,3 +1,11 @@
+> **© 2026 Tahsin Sakin — TELİF HAKKI / COPYRIGHT. Tüm hakları saklıdır. All rights reserved.**
+>
+> Bu depo, kaynak kod, tasarım, metin, marka ve fikir **özel mülkiyettir**. Açık kaynak değildir. MIT yoktur.
+> İzinsiz kopyalama, çoğaltma, dağıtma, tersine mühendislik, türetilmiş eser, ticari kullanım ve yeniden yayın **yasaktır**.
+> Koruma: **5846 sayılı Fikir ve Sanat Eserleri Kanunu**, haksız rekabet hükümleri ve Bern Sözleşmesi.
+> İhlalde ihtiyati tedbir, tazminat ve kanunun izin verdiği cezai şikayet yollarına başvurulur.
+> İzin: tahcem17@gmail.com · Tam metin: [`LICENSE`](LICENSE)
+
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=1e3a5f&height=170&section=header&text=BudVia&fontSize=58&fontColor=f0e68c&animation=fadeIn&fontAlignY=36&desc=The%20trip%20stays%20on%20this%20phone&descAlignY=64&descSize=16" alt="BudVia" />
 </p>
@@ -6,7 +14,7 @@
   <a href="https://tahsinsakin.github.io/belvia/"><img src="https://img.shields.io/badge/live-tahsinsakin.github.io%2Fbelvia-f0e68c?style=for-the-badge&labelColor=1e3a5f" alt="live" /></a>
   <a href="INSTALL.md"><img src="https://img.shields.io/badge/install-iPhone%20%C2%B7%20Android-06b6d4?style=for-the-badge&labelColor=1e3a5f" alt="install" /></a>
   <img src="https://img.shields.io/badge/no%20account-no%20server-22c55e?style=for-the-badge&labelColor=1e3a5f" alt="private" />
-  <img src="https://img.shields.io/github/license/tahsinsakin/belvia?style=for-the-badge&labelColor=1e3a5f&color=f59e0b" alt="mit" />
+  <img src="https://img.shields.io/badge/license-proprietary-b91c1c?style=for-the-badge&labelColor=1e3a5f" alt="proprietary" />
 </p>
 
 # Buying the ticket is easy. Keeping the trip together is not.
@@ -96,4 +104,4 @@ Information Systems Engineer · Ankara
 An idiot admires complexity, a genius admires simplicity.  
 — Terry A. Davis
 
-MIT. See `LICENSE`.
+Proprietary. All rights reserved. See `LICENSE`.
