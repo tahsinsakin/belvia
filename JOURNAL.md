@@ -2,6 +2,7 @@
 
 One line a day. The trip stays on the phone.
 
+- 2026-11-13 — BudVia keeps the trip plan, bag and tickets privately on-device in the PWA, with no account.
 - 2026-11-12 — BudVia keeps the trip plan, bag and tickets privately on-device in the PWA, with no account.
 - 2026-11-11 — BudVia keeps the trip plan, bag and tickets privately on-device in the PWA, with no account.
 - 2026-11-10 — BudVia keeps the trip plan, bag and tickets privately on-device in the PWA, with no account.
